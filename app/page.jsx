@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Home() {
@@ -41,15 +43,26 @@ let config = {
 
 await axios.request(config)
 .then((response) => {
-  console.log(JSON.stringify(response.data));
+  console.log(response);
+if(response.data.status==false){
+  toast.warning("Allready Add",{
+    autoClose:1000
+  })
 
+}else{
+  toast.success("Add successfully",{
+    autoClose:1000
+  })
 
-  alert("Data Added")
- setform(false)
+}
+
+ 
+  setform(false)
 })
 .catch((error) => {
   console.log(error);
 });
+route.push('/')
 
 }
 
@@ -73,10 +86,10 @@ useEffect(()=>{
     console.log(error);
   });
   
-},[])
+},[alldata])
 
 
-const del=(e)=>{
+const del=async (e)=>{
 
   let config = {
     method: 'delete',
@@ -88,13 +101,15 @@ const del=(e)=>{
   axios.request(config)
   .then((response) => {
     console.log(JSON.stringify(response.data));
-alert("Delete User")
-
+   toast.error("Delete Successfully",{
+    autoClose:1000
+   })
 
   })
   .catch((error) => {
     console.log(error);
   });
+ route.push('/')
 
 
 }
@@ -104,6 +119,7 @@ alert("Delete User")
 
   return (
   <>
+   <h1 className='text-center font-semibold mt-5 text-orange-300 animate-bounce'>TODO LIST IN NEXT.JS USING MONGODB</h1>
 
 {
   form ?
@@ -150,7 +166,7 @@ alert("Delete User")
 <div className="relative overflow-x-auto">
 
     <table className="w-3/6 text-sm mx-auto mt-5 text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-gray-100 uppercase   dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     NAME
@@ -179,7 +195,7 @@ alert("Delete User")
   alldata.map((v,i)=>{
     return(
       <>
-       <tr className="bg-white border-b hover:bg-gray-100 hover:rounded-md dark:bg-gray-800 dark:border-gray-700">
+       <tr className=" hover:bg-gray-100 hover:rounded-md  ">
               
                 <td className="px-6 py-4 ">
                    {v.name}
@@ -209,6 +225,7 @@ alert("Delete User")
     </table>
 
 </div>
+<ToastContainer />
 
 </>
 

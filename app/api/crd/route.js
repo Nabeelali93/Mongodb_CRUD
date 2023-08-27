@@ -6,9 +6,9 @@ import {data} from '../../library/Model/product'
 export async function GET(){
 
 
-await mongoose.connect(dbconnect).then(async(res)=>{
-    console.log("Get api Connected")
-})
+await mongoose.connect(dbconnect)
+    
+
 
 
 const result = await data.find()

@@ -7,5 +7,7 @@ const defineSchema =mongoose.Schema ({
     contact:Number
 })
 
-
-export const data = mongoose.model("product",defineSchema)
+  if(mongoose.models['products']){
+    delete mongoose.models['products']
+  }
+export const data = mongoose.model("products",defineSchema)
